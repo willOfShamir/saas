@@ -190,6 +190,35 @@
 
         var chart;
         var data;
+        var options;
+
+        var fdSet = [
+            [
+                [0, 0],
+                [-10, .25],
+                [-20, .6],
+                [-30, 1],
+            ],
+            [
+                [0, 0],
+                [-10, .5],
+                [-20, 1],
+                [-30, 1.5],
+            ],
+            [
+                [0, 0],
+                [-10, .75],
+                [-20, 1.5],
+                [-30, 2],
+            ],
+            [
+                [0, 0],
+                [-10, .8],
+                [-20, 1.75],
+                [-30, 2.5],
+            ],
+        ];
+        var dsIndex = 0;
         google.charts.load("current", {
             packages: ["corechart"]
         });
@@ -201,40 +230,35 @@
             data.addColumn('number', 'X');
             data.addColumn('number', 'Y');
 
-            data.addRows([
-                [-1.0, -1.5],
-                [0, -1.25],
-                [0.5, 1],
-                [1.25, 2.5],
-
-            ]);
+            data.addRows(fdSet[dsIndex]);
 
 
 
-            var options = {
+            options = {
                 //                legend: 'none',
                 hAxis: {
-                    maxValue: 3,
-                    minValue: -3,
-                    title: 'X'
+                    maxValue: -40,
+                    minValue: 10,
+                    title: 'Degrees'
                 },
                 vAxis: {
                     maxValue: 3,
-                    minValue: -3,
-                    title: 'Y'
+                    minValue: -0.5,
+                    title: 'D'
                 },
                 lineWidth: 3,
                 colors: ['blue'],
-                animation: {
+                /*animation: {
                     duration: 1000,
                     easing: 'out',
                     startup: 'true'
-                },
+                },*/
                 width: "100%",
-                height: "100%",
+                height: "120%",
                 legend: 'left',
                 title: 'Power Profile',
-                is3D: true,
+                //is3D: true,
+                curveType: "function",
                 chartArea: {
                     left: 30,
                     top: 30
@@ -292,8 +316,12 @@
                     //totalslides2[((ui.value) - 1)].style.animation = "fadein 1s ease-in";
 
 
-                    let index = $(ui.handle).index()
+                    let index = $(ui.handle).index();
                     $('#indexandvalue').text("DEBUG value: " + ui.value + ", index: " + index);
+                    dsIndex = (ui.value-1);
+                    //chart.draw(data, options);
+                    drawChart();
+                    console.log("dsIndex is currently "+dsIndex);
                     //drawChart.moveMarker(ui.value);
                     var cli = chart.getChartLayoutInterface();
                     var chartArea = cli.getChartAreaBoundingBox();
